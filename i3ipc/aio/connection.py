@@ -19,7 +19,8 @@ from asyncio import Future
 _MAGIC = b'i3-ipc'  # safety string for i3-ipc
 _chunk_size = 1024  # in bytes
 _timeout = 0.5  # in seconds
-_struct_header = f'={len(_MAGIC)}sII'
+_struct_header = '={}{}'.format(str(len(_MAGIC)), 'sII')
+#_struct_header = f'={len(_MAGIC)}sII'
 _struct_header_size = struct.calcsize(_struct_header)
 
 
@@ -446,8 +447,8 @@ class Connection:
             e = Event(e)
             if e not in Event._subscribable_events:
                 correct_event = str.split(e.value, '::')[0].upper()
-                raise ValueError(
-                    f'only nondetailed events are subscribable (use Event.{correct_event})')
+                raise ValueError()
+                    #f'only nondetailed events are subscribable (use Event.{correct_event})'
             subscriptions.add(e)
 
         if not force:
